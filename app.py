@@ -16,6 +16,23 @@ def get_query(question):
     if response.status_code != 200:
         raise Exception(f'Request failed with status {response.status_code}, {response.text}')
     return response.json()
+    
+def clean_sql(sql_query):
+    sql_upper = sql_query.upper()
+    idx_with = sql_upper.find("WITH")
+    idx_select = sql_upper.find("SELECT")
+    idx = -1
+    if idx_with != -1 and idx_select != -1:
+        idx = min(idx_with, idx_select)
+    elif idx_with != -1:
+        idx = idx_with
+    elif idx_select != -1:
+        idx = idx_select
+    
+    if idx != -1:
+        return sql_query[idx:] 
+    else:
+        return sql_query 
 
 def run_query(sql_query):
     connection = sql.connect(
@@ -37,7 +54,7 @@ if st.button("Send"):
     try:
         result = get_query(user_input)
         sql_query = result['predictions'][0]['sql']
-        data = run_query(sql_query)
+        data = run_query(clean_sql(sql_query))
         st.subheader("Generated SQL Query:")
         st.code(sql_query, language='sql')
         st.subheader("Query Result:")
