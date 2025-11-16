@@ -16,7 +16,8 @@ user_input = st.text_input("Ask your question")
 if st.button("Send"):
     try:
         result = score_model(user_input)
-        st.write("Result:")
-        st.json(result) 
+        sql_query = result['predictions'][0]['sql']
+        st.subheader("Generated SQL Query:")
+        st.code(sql_query, language='sql')
     except Exception as e:
         st.error(f"Error: {e}")
