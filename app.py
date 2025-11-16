@@ -14,4 +14,4 @@ def score_model(question):
 st.title("Demo: Databricks model from Streamlit")
 user_input = st.text_input("Ask your question")
 if st.button("Send"):
-    score_model(question)
+    score_model(user_input )
