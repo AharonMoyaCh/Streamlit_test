@@ -32,7 +32,14 @@ user_input = st.text_input("Ask your question")
 if st.button("Send"):
     try:
         result = get_query(user_input)
-        sql_query = result['predictions'][0]['sql']
+        sql_query_temp = result['predictions'][0]['sql']
+        sql_query = (
+            sql_query_temp
+            .replace("```sql", "")
+            .replace("```", "")
+            .split(";", 1)[0]
+            .strip()
+        )
         data = run_query(sql_query)
         st.subheader("Generated SQL Query:")
         st.code(sql_query, language='sql')
