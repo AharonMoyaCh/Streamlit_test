@@ -3,13 +3,12 @@ import requests
 import json
 
 # Config
-DATABRICKS_URL = "https://<workspace-url>/serving-endpoints/<nombre-endpoint>/invocations"
-TOKEN = "<TU_TOKEN_DATABRICKS>"
+DATABRICKS_URL = "https://dbc-164e54c4-ef63.cloud.databricks.com/serving-endpoints/Final_Testing/invocations"
+TOKEN = "dapi7aff94b92948d811e9f9019293f4705d"
 
 st.title("Demo: Databricks model from Streamlit")
 
 user_input = st.text_input("Ask your question")
-
 if st.button("Send"):
     headers = {
         "Authorization": f"Bearer {TOKEN}",
@@ -17,7 +16,7 @@ if st.button("Send"):
     }
 
     data = {
-        "dataframe_records": [{"text": user_input}]
+        "input": [user_input]
     }
 
     response = requests.post(DATABRICKS_URL, headers=headers, data=json.dumps(data))
