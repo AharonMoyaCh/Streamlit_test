@@ -36,7 +36,7 @@ if st.button("Send"):
         #data = run_query(sql_query)
         st.subheader("Generated SQL Query:")
         st.code(sql_query, language='sql')
-        st.json(result)
+        st.text(result)
         st.subheader("Query Result:")
         #st.dataframe(data)
     except Exception as e:
