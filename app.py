@@ -33,11 +33,11 @@ if st.button("Send"):
     try:
         result = get_query(user_input)
         sql_query = result['predictions'][0]['sql']
-        #data = run_query(sql_query)
+        data = run_query(sql_query)
         st.subheader("Generated SQL Query:")
         st.code(sql_query, language='sql')
         st.text(result['predictions'][0]['sql'])
         st.subheader("Query Result:")
-        #st.dataframe(data)
+        st.dataframe(data)
     except Exception as e:
         st.error(f"Error: {e}")
