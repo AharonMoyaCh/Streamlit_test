@@ -14,4 +14,9 @@ def score_model(question):
 st.title("Demo: Databricks model from Streamlit")
 user_input = st.text_input("Ask your question")
 if st.button("Send"):
-    score_model(user_input )
+    try:
+        result = score_model(user_input)
+        st.write("Result:")
+        st.json(result) 
+    except Exception as e:
+        st.error(f"Error: {e}")
