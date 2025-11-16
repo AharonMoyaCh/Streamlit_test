@@ -4,9 +4,13 @@ import json
 import pandas as pd
 from databricks import sql
 
+SERVER_HOSTNAME = st.secrets["SERVER_HOSTNAME"]
+HTTP_PATH = st.secrets["HTTP_PATH"]
+ACCESS_TOKEN = st.secrets["ACCESS_TOKEN"]
+url = st.secrets["URL"]
+
 def get_query(question):
-    url = 'https://dbc-164e54c4-ef63.cloud.databricks.com/serving-endpoints/Final_Testing/invocations'
-    headers = {'Authorization': f'Bearer {"dapi7aff94b92948d811e9f9019293f4705d"}', 'Content-Type': 'application/json'}
+    headers = {'Authorization': f'Bearer {ACCESS_TOKEN}', 'Content-Type': 'application/json'}
     data_json = {'inputs': [question]}
     response = requests.request(method='POST', headers=headers, url=url, data=json.dumps(data_json))
     if response.status_code != 200:
@@ -15,9 +19,9 @@ def get_query(question):
 
 def run_query(sql_query):
     connection = sql.connect(
-        server_hostname="dbc-164e54c4-ef63.cloud.databricks.com",
-        http_path="/sql/1.0/warehouses/591de624a7eca260",  
-        access_token="dapi7aff94b92948d811e9f9019293f4705d"
+        server_hostname=SERVER_HOSTNAME,
+        http_path=HTTP_PATH,  
+        access_token=ACCESS_TOKEN
     )
     cursor = connection.cursor()
     cursor.execute(sql_query)
